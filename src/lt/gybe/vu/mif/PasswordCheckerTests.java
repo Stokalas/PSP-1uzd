@@ -2,6 +2,8 @@ package lt.gybe.vu.mif;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,55 +12,71 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PasswordCheckerTests {
 
     PasswordChecker passwordChecker;
-    Character[] specialCharacters;
+    String specialSymbol = "";
 
     @BeforeEach
     void SetUp() {
         passwordChecker = new PasswordChecker();
-        specialCharacters = new Character[] {'!', '@', '#', '$'};
+        Character[] specialSymbols = passwordChecker.getSpecialSymbols();
+        if (specialSymbols.length == 0) {
+            specialSymbol += specialSymbols[0];
+        }
     }
 
     /*Password must be at least 8 characters long*/
-    @Test
-    void TestPasswordValidationTooShortPassword() {
-        String shortPassword = "1234567";
-        assertFalse(passwordChecker.ValidatePassword(shortPassword));
+    @ParameterizedTest
+    @ValueSource(strings = {"A", "Abcd", "A12345"})
+    void TestPasswordValidationTooShortPassword(String password) {
+        password += specialSymbol;
+        assertFalse(passwordChecker.validatePassword(password));
     }
 
+    /*
+    * Probably would be nice to have maximum length as well
+    * initial thought is 32 chars
+    */
     @Test
-    void TestPasswordValidationEmptyString() {
-        String emptyPassword = "";
-        assertFalse(passwordChecker.ValidatePassword(emptyPassword));
+    void TestPasswordValidationTooLongPassword() {
+        //randomly generated 32 length string + special char
+        String longPassword = "TBVGSOZJSSMWQGHHGLBGNKPSVHYFXLMO" + specialSymbol;
+        assertFalse(passwordChecker.validatePassword(longPassword));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", " "})
+    void TestPasswordValidationEmptyString(String password) {
+        assertFalse(passwordChecker.validatePassword(password));
     }
 
     @Test
     void TestPasswordValidationNullString() {
         String nullPassword = null;
-        assertFalse(passwordChecker.ValidatePassword(nullPassword));
+        assertFalse(passwordChecker.validatePassword(nullPassword));
     }
 
     @Test
     void TestPasswordValidationStringWithSpaces() {
-        String withSpaces = "space password";
-        assertFalse(passwordChecker.ValidatePassword(withSpaces));
+        String withSpaces = "Space password" + specialSymbol;
+        assertFalse(passwordChecker.validatePassword(withSpaces));
     }
 
     @Test
     void TestPasswordValidationNoUppercaseChars() {
-        String noUppercase = "uppercasenotfound"; //length >= 8
-        assertFalse(passwordChecker.ValidatePassword(noUppercase));
+        String noUppercase = "uppercasenotfound" + specialSymbol; //length >= 8
+        assertFalse(passwordChecker.validatePassword(noUppercase));
     }
 
     @Test
     void TestPasswordValidationNoSpecialChars() {
         String noSpecial = "Aaaaaaaa"; //length >= 8 + Uppercase letter
-        assertFalse(passwordChecker.ValidatePassword(noSpecial));
+        assertFalse(passwordChecker.validatePassword(noSpecial));
     }
 
     @Test
     void TestPasswordValidationValidPassword() {
-        String validPassword = "Password!";
-        assertTrue(passwordChecker.ValidatePassword(validPassword));
+
+        String validPassword = "Password" + specialSymbol;
+        assertTrue(passwordChecker.validatePassword(validPassword));
     }
 
 
