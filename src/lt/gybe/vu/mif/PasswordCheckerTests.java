@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class PasswordCheckerTests {
@@ -26,7 +27,7 @@ class PasswordCheckerTests {
     /*Password must be at least 8 characters long*/
     @ParameterizedTest
     @ValueSource(strings = {"A", "Abcd", "A12345"})
-    void TestPasswordValidationTooShortPassword(String password) {
+    void validatePassword_TooShortPassword_False(String password) {
         password += specialSymbol;
         assertFalse(passwordChecker.validatePassword(password));
     }
@@ -36,7 +37,7 @@ class PasswordCheckerTests {
     * initial thought is 32 chars
     */
     @Test
-    void TestPasswordValidationTooLongPassword() {
+    void validatePassword_TooLongPassword_False() {
         //randomly generated 32 length string + special char
         String longPassword = "TBVGSOZJSSMWQGHHGLBGNKPSVHYFXLMO" + specialSymbol;
         assertFalse(passwordChecker.validatePassword(longPassword));
@@ -44,40 +45,39 @@ class PasswordCheckerTests {
 
     @ParameterizedTest
     @ValueSource(strings = {"", " "})
-    void TestPasswordValidationEmptyString(String password) {
+    void validatePassword_EmptyString_False(String password) {
         assertFalse(passwordChecker.validatePassword(password));
     }
 
     @Test
-    void TestPasswordValidationNullString() {
+    void validatePassword_NullString_ExceptionThrown() {
         String nullPassword = null;
-        assertFalse(passwordChecker.validatePassword(nullPassword));
+        assertThrows(IllegalArgumentException.class, () -> {
+            passwordChecker.validatePassword(nullPassword);
+        });
     }
 
     @Test
-    void TestPasswordValidationStringWithSpaces() {
+    void validatePassword_StringWithSpaces_False() {
         String withSpaces = "Space password" + specialSymbol;
         assertFalse(passwordChecker.validatePassword(withSpaces));
     }
 
     @Test
-    void TestPasswordValidationNoUppercaseChars() {
+    void validatePassword_NoUppercaseChars_False() {
         String noUppercase = "uppercasenotfound" + specialSymbol; //length >= 8
         assertFalse(passwordChecker.validatePassword(noUppercase));
     }
 
     @Test
-    void TestPasswordValidationNoSpecialChars() {
+    void validatePassword_NoSpecialChars_False() {
         String noSpecial = "Aaaaaaaa"; //length >= 8 + Uppercase letter
         assertFalse(passwordChecker.validatePassword(noSpecial));
     }
 
     @Test
-    void TestPasswordValidationValidPassword() {
-
+    void validatePassword_ValidPassword_True() {
         String validPassword = "Password" + specialSymbol;
         assertTrue(passwordChecker.validatePassword(validPassword));
     }
-
-
 }
