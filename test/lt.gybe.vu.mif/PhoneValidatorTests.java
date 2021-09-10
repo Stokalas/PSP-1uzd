@@ -34,7 +34,7 @@ public class PhoneValidatorTests {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"86800000x", "+37060000000"})
+    @ValueSource(strings = {"86800000x", "+37060000000", "868 000 123"})
     void isPhoneNumberValid_WithOtherSymbols_False(String phoneNumber) {
         assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber));
     }
@@ -53,10 +53,14 @@ public class PhoneValidatorTests {
 
     @Test
     void isPhoneNumberValid_AddCountryValidation_ValidNumber_True() {
+        //Arrange
         String title = "Latvia";
-        int length = 8;
-        String countryCode = "371";
-        phoneValidator.addCountryValidation(title, length, countryCode);
+        int lengths[] = {9};
+        String localPrefix = "8";
+        String intPrefix = "371";
+        phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
+
+        //Act/Assert
         assertTrue(phoneValidator.isPhoneNumberValid("37166789012"));
     }
 
