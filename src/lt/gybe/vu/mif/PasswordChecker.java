@@ -10,18 +10,18 @@ public class PasswordChecker {
     }
 
     public PasswordChecker() {
-        readAndSetSpecialSymbols();
+        setDefaultSpecialSymbols();
     }
 
-//    public void setSpecialSymbols(Character[] specialSymbols) {
-//        this.specialSymbols = specialSymbols;
-//    }
+    public void setSpecialSymbols(Character[] specialSymbols) {
+        this.specialSymbols = specialSymbols;
+    }
 
-    public boolean validatePassword(String password) {
+    public boolean isPasswordValid(String password) {
         return false;
     }
 
-    private void readAndSetSpecialSymbols() {
+    private void setDefaultSpecialSymbols() {
         //read from appSettings, not sure of equivalent in Java :)
         this.specialSymbols = new Character[] {'!', '@'};
     }

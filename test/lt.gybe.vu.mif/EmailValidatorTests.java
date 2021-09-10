@@ -20,63 +20,63 @@ public class EmailValidatorTests {
 
     @ParameterizedTest
     @ValueSource(strings = {"", " "})
-    void validateEmail_EmptyString_False(String email) {
-        assertFalse(emailValidator.validateEmail(email));
+    void isEmailValid_EmptyString_False(String email) {
+        assertFalse(emailValidator.isEmailValid(email));
     }
 
     @Test
-    void validateEmail_NullString_ThrowsException() {
+    void isEmailValid_NullString_ThrowsException() {
         String nullString = null;
         assertThrows(IllegalArgumentException.class, () -> {
-            emailValidator.validateEmail(nullString);
+            emailValidator.isEmailValid(nullString);
         });
     }
 
     @Test
-    void validateEmail_WithoutRecipientName_False() {
+    void isEmailValid_WithoutRecipientName_False() {
         String email = "@xyz.com";
-        assertFalse(emailValidator.validateEmail(email));
+        assertFalse(emailValidator.isEmailValid(email));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"email.xyz.com", "emailxyz.com", "email.com"})
-    void validateEmail_WithoutAt_False(String email) {
-        assertFalse(emailValidator.validateEmail(email));
+    void isEmailValid_WithoutAt_False(String email) {
+        assertFalse(emailValidator.isEmailValid(email));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"e(mail@xyz.com", "name@email@-xyz.com", "ema\"il@xyz.com", "_name@email.com"})
-    void validateEmail_WithInvalidSymbol_False(String email) {
-        assertFalse(emailValidator.validateEmail(email));
+    void isEmailValid_WithInvalidSymbol_False(String email) {
+        assertFalse(emailValidator.isEmailValid(email));
     }
 
     @Test
-    void validateEmail_WithoutDomain_False() {
+    void isEmailValid_WithoutDomain_False() {
         String withoutDomain = "email@.com";
-        assertFalse(emailValidator.validateEmail(withoutDomain));
+        assertFalse(emailValidator.isEmailValid(withoutDomain));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"email@xyz!a.com", "email@-xyz.com", "email@192.168.2.4.com"})
-    void validateEmail_IncorrectDomain_False(String email) {
-        assertFalse(emailValidator.validateEmail(email));
+    void isEmailValid_IncorrectDomain_False(String email) {
+        assertFalse(emailValidator.isEmailValid(email));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"email@xyz", "email@xyzcom", "email@com"})
-    void validateEmail_WithoutTLD_False(String email) {
-        assertFalse(emailValidator.validateEmail(email));
+    void isEmailValid_WithoutTLD_False(String email) {
+        assertFalse(emailValidator.isEmailValid(email));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"name@example.!", "email@xyz.domain.1", "john@gmail.c0m"})
-    void validateEmail_InvalidTLD_False(String email) {
-        assertFalse(emailValidator.validateEmail(email));
+    void isEmailValid_InvalidTLD_False(String email) {
+        assertFalse(emailValidator.isEmailValid(email));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"name@example.com", "email@xyz.domain.com", "john@gmail.com"})
-    void validateEmail_ValidEmail_True(String email) {
-        assertTrue(emailValidator.validateEmail(email));
+    void isEmailValid_ValidEmail_True(String email) {
+        assertTrue(emailValidator.isEmailValid(email));
     }
 }

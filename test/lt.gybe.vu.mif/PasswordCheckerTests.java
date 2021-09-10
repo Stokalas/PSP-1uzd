@@ -27,9 +27,9 @@ class PasswordCheckerTests {
     /*Password must be at least 8 characters long*/
     @ParameterizedTest
     @ValueSource(strings = {"A", "Abcd", "A12345"})
-    void validatePassword_TooShortPassword_False(String password) {
+    void isPasswordValid_TooShortPassword_False(String password) {
         password += specialSymbol;
-        assertFalse(passwordChecker.validatePassword(password));
+        assertFalse(passwordChecker.isPasswordValid(password));
     }
 
     /*
@@ -37,47 +37,47 @@ class PasswordCheckerTests {
     * initial thought is 32 chars
     */
     @Test
-    void validatePassword_TooLongPassword_False() {
+    void isPasswordValid_TooLongPassword_False() {
         //randomly generated 32 length string + special char
         String longPassword = "TBVGSOZJSSMWQGHHGLBGNKPSVHYFXLMO" + specialSymbol;
-        assertFalse(passwordChecker.validatePassword(longPassword));
+        assertFalse(passwordChecker.isPasswordValid(longPassword));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", " "})
-    void validatePassword_EmptyString_False(String password) {
-        assertFalse(passwordChecker.validatePassword(password));
+    void isPasswordValid_EmptyString_False(String password) {
+        assertFalse(passwordChecker.isPasswordValid(password));
     }
 
     @Test
-    void validatePassword_NullString_ExceptionThrown() {
+    void isPasswordValid_NullString_ExceptionThrown() {
         String nullPassword = null;
         assertThrows(IllegalArgumentException.class, () -> {
-            passwordChecker.validatePassword(nullPassword);
+            passwordChecker.isPasswordValid(nullPassword);
         });
     }
 
     @Test
-    void validatePassword_StringWithSpaces_False() {
+    void isPasswordValid_StringWithSpaces_False() {
         String withSpaces = "Space password" + specialSymbol;
-        assertFalse(passwordChecker.validatePassword(withSpaces));
+        assertFalse(passwordChecker.isPasswordValid(withSpaces));
     }
 
     @Test
-    void validatePassword_NoUppercaseChars_False() {
+    void isPasswordValid_NoUppercaseChars_False() {
         String noUppercase = "uppercasenotfound" + specialSymbol; //length >= 8
-        assertFalse(passwordChecker.validatePassword(noUppercase));
+        assertFalse(passwordChecker.isPasswordValid(noUppercase));
     }
 
     @Test
-    void validatePassword_NoSpecialChars_False() {
+    void isPasswordValid_NoSpecialChars_False() {
         String noSpecial = "Aaaaaaaa"; //length >= 8 + Uppercase letter
-        assertFalse(passwordChecker.validatePassword(noSpecial));
+        assertFalse(passwordChecker.isPasswordValid(noSpecial));
     }
 
     @Test
-    void validatePassword_ValidPassword_True() {
+    void isPasswordValid_ValidPassword_True() {
         String validPassword = "Password" + specialSymbol;
-        assertTrue(passwordChecker.validatePassword(validPassword));
+        assertTrue(passwordChecker.isPasswordValid(validPassword));
     }
 }

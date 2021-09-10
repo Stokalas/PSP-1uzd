@@ -1,7 +1,7 @@
 package lt.gybe.vu.mif;
 
 public class EmailValidator {
-    public boolean validateEmail(String email) {
+    public boolean isEmailValid(String email) {
         return false;
     }
 }

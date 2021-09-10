@@ -1,7 +1,12 @@
 package lt.gybe.vu.mif;
 
 public class PhoneValidator {
-    public boolean validatePhoneNumber(String phoneNumber) {
+
+    public boolean isPhoneNumberValid(String phoneNumber) {
         return false;
+    }
+
+    public void addCountryValidation(String code, int length, String prefix) {
+        return;
     }
 }

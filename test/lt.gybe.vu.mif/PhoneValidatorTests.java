@@ -21,43 +21,43 @@ public class PhoneValidatorTests {
 
     @ParameterizedTest
     @ValueSource(strings = {"", " "})
-    void validatePhoneNumber_EmptyString_False(String phoneNumber) {
-        assertFalse(phoneValidator.validatePhoneNumber(phoneNumber));
+    void isPhoneNumberValid_EmptyString_False(String phoneNumber) {
+        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber));
     }
 
     @Test
-    void validatePhoneNumber_NullString_ThrowsException() {
+    void isPhoneNumberValid_NullString_ThrowsException() {
         String phoneNumber = null;
         assertThrows(InvalidParameterException.class, () -> {
-           phoneValidator.validatePhoneNumber(phoneNumber);
+           phoneValidator.isPhoneNumberValid(phoneNumber);
         });
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"86800000x", "+37060000000"})
-    void validatePhoneNumber_WithOtherSymbols_False(String phoneNumber) {
-        assertFalse(phoneValidator.validatePhoneNumber(phoneNumber));
+    void isPhoneNumberValid_WithOtherSymbols_False(String phoneNumber) {
+        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"8635", "37061234567890"})
-    void validatePhoneNumber_InvalidLength_False(String phoneNumber) {
-        assertFalse(phoneValidator.validatePhoneNumber(phoneNumber));
+    void isPhoneNumberValid_InvalidLength_False(String phoneNumber) {
+        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"868000008", "37060000000"})
-    void validatePhoneNumber_ValidNumber_True(String phoneNumber) {
-        assertTrue(phoneValidator.validatePhoneNumber(phoneNumber));
+    void isPhoneNumberValid_ValidNumber_True(String phoneNumber) {
+        assertTrue(phoneValidator.isPhoneNumberValid(phoneNumber));
     }
 
     @Test
-    void validatePhoneNumber_AddCountryValidation_ValidNumber_True() {
+    void isPhoneNumberValid_AddCountryValidation_ValidNumber_True() {
         String title = "Latvia";
         int length = 8;
         String countryCode = "371";
         phoneValidator.addCountryValidation(title, length, countryCode);
-        assertTrue(phoneValidator.validatePhoneNumber("37166789012"));
+        assertTrue(phoneValidator.isPhoneNumberValid("37166789012"));
     }
 
 }
