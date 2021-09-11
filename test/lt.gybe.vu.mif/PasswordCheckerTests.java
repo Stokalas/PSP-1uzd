@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class PasswordCheckerTests {
 
@@ -19,9 +19,7 @@ class PasswordCheckerTests {
     void SetUp() {
         passwordChecker = new PasswordChecker();
         Character[] specialSymbols = passwordChecker.getSpecialSymbols();
-        if (specialSymbols.length == 0) {
-            specialSymbol += specialSymbols[0];
-        }
+        specialSymbol += specialSymbols[0];
     }
 
     /*Password must be at least 8 characters long*/
@@ -79,5 +77,15 @@ class PasswordCheckerTests {
     void isPasswordValid_ValidPassword_True() {
         String validPassword = "Password" + specialSymbol;
         assertTrue(passwordChecker.isPasswordValid(validPassword));
+    }
+
+    @Test
+    void addSpecialSymbol_DuplicateSymbol_DoesNotThrow() {
+        Character specialSymbol = '%';
+        passwordChecker.addSpecialSymbol(specialSymbol);
+
+        assertDoesNotThrow( () -> {
+            passwordChecker.addSpecialSymbol(specialSymbol);
+        });
     }
 }

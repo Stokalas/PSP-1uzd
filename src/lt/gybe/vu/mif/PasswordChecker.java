@@ -21,6 +21,10 @@ public class PasswordChecker {
         return false;
     }
 
+    public void addSpecialSymbol(Character symbol) {
+        return;
+    }
+
     private void setDefaultSpecialSymbols() {
         //read from appSettings, not sure of equivalent in Java :)
         this.specialSymbols = new Character[] {'!', '@'};
