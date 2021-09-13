@@ -115,6 +115,20 @@ public class PhoneValidatorTests {
         });
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1})
+    void addCountryValidation_NotPositiveLengths_ThrowsException(int length) {
+        String title = "Country";
+        String localPrefix = "8";
+        String intPrefix = "371";
+        int[] lengths = {length, 8};
+
+        //Act/Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
+        });
+    }
+
     @Test
     void addCountryValidation_EmptyLengths_ThrowsException() {
         String title = "Country";
