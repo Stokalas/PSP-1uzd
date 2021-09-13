@@ -8,49 +8,76 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class PhoneValidatorTests {
+
+    String country = "Lithuania";
+    String validPhoneNumber = "868000008";
 
     PhoneValidator phoneValidator;
     @BeforeEach
     void SetUp() {
         phoneValidator = new PhoneValidator();
+        phoneValidator.addCountryValidation(country, new int[] {8}, "8", "370");
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", " "})
-    void isPhoneNumberValid_EmptyString_False(String phoneNumber) {
-        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber));
+    void isPhoneNumberValid_EmptyStringNumber_False(String phoneNumber) {
+        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber, country));
     }
 
     @Test
-    void isPhoneNumberValid_NullString_ThrowsException() {
+    void isPhoneNumberValid_NullStringNumber_ThrowsException() {
         String phoneNumber = null;
         assertThrows(IllegalArgumentException.class, () -> {
-           phoneValidator.isPhoneNumberValid(phoneNumber);
+           phoneValidator.isPhoneNumberValid(phoneNumber, country);
         });
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"86800000x", "+37060000000", "868 000 123"})
-    void isPhoneNumberValid_WithOtherSymbols_False(String phoneNumber) {
-        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber));
+    void isPhoneNumberValid_WithOtherSymbolsNumber_False(String phoneNumber) {
+        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber, country));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"8635", "37061234567890"})
-    void isPhoneNumberValid_InvalidLength_False(String phoneNumber) {
-        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber));
+    void isPhoneNumberValid_InvalidLengthNumber_False(String phoneNumber) {
+        assertFalse(phoneValidator.isPhoneNumberValid(phoneNumber, country));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"lithuania", "LITHUANIA", "LiThUaNiA"})
+    void isPhoneNumberValid_DifferentCapitalizationCountry_True(String country) {
+        assertTrue(phoneValidator.isPhoneNumberValid(validPhoneNumber, country));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "Estonia", "Lithunimia"})
+    void isPhoneNumberValid_NotExistingCountry_ThrowsException(String notAddedCountry) {
+        assertThrows(IllegalArgumentException.class, () -> {
+            phoneValidator.isPhoneNumberValid(validPhoneNumber, notAddedCountry);
+        });
+    }
+
+    @Test
+    void isPhoneNumberValid_NullCountry_ThrowsException() {
+        String nullCountry = null;
+        assertThrows(IllegalArgumentException.class, () -> {
+            phoneValidator.isPhoneNumberValid(validPhoneNumber, nullCountry);
+        });
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"868000008", "37060000000"})
-    void isPhoneNumberValid_ValidNumber_True(String phoneNumber) {
-        assertTrue(phoneValidator.isPhoneNumberValid(phoneNumber));
+    void isPhoneNumberValid_ValidNumberCountry_True(String phoneNumber) {
+        assertTrue(phoneValidator.isPhoneNumberValid(phoneNumber, country));
     }
 
     @Test
-    void isPhoneNumberValid_AddCountryValidation_ValidNumber_True() {
+    void isPhoneNumberValid_AddCountryValidation_ValidNumberCountry_True() {
         //Arrange
         String title = "Latvia";
         int lengths[] = {9};
@@ -59,7 +86,7 @@ public class PhoneValidatorTests {
         phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
 
         //Act/Assert
-        assertTrue(phoneValidator.isPhoneNumberValid("37166789012"));
+        assertTrue(phoneValidator.isPhoneNumberValid("37166789012", country));
     }
 
     @Test
@@ -93,7 +120,7 @@ public class PhoneValidatorTests {
         String title = "Country";
         String localPrefix = "8";
         String intPrefix = "371";
-        int[] lengths = {9};
+        int[] lengths = {};
 
         //Act/Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -145,43 +172,27 @@ public class PhoneValidatorTests {
 
     @ParameterizedTest
     @ValueSource(strings = {"", " "})
-    void addCountryValidation_EmptyLocalPrefix_ThrowsException(String localPrefix) {
+    void addCountryValidation_EmptyLocalPrefix_DoesNotThrowException(String localPrefix) {
         //Arrange
         String title = "Country";
         int[] lengths = {9};
         String intPrefix = "371";
 
         //Act/Assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertDoesNotThrow( () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
 
-    @Test
-    void addCountryValidation_DuplicateTitle_ThrowsException() {
+    @ParameterizedTest
+    @ValueSource(strings = {"", " "})
+    void addCountryValidation_EmptyTitle_ThrowsException(String title) {
         //Arrange
-        String title = "Country";
         int[] lengths = {9};
         String localPrefix = "8";
         String intPrefix = "371";
 
         phoneValidator.addCountryValidation(title, new int[] {10}, "7", "123");
-
-        //Act/Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
-        });
-    }
-
-    @Test
-    void addCountryValidation_DuplicateLocalPrefix_ThrowsException() {
-        //Arrange
-        String title = "Country";
-        int[] lengths = {9};
-        String localPrefix = "8";
-        String intPrefix = "371";
-
-        phoneValidator.addCountryValidation("Existing", new int[] {10}, "8", "123");
 
         //Act/Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -260,6 +271,16 @@ public class PhoneValidatorTests {
         assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"lithuania", "LITHUANIA", "LiThUaNiA"})
+    void addCountryValidation_ExistingTitle_OverwritesPrevious_True(String country) {
+        //Arrange
+        phoneValidator.addCountryValidation(country, new int[] {8}, "7", "370");
+
+        //Act/Assert
+        assertTrue(phoneValidator.isPhoneNumberValid("768000008", country));
     }
 
 }

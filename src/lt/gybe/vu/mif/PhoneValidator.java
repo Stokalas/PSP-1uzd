@@ -2,7 +2,7 @@ package lt.gybe.vu.mif;
 
 public class PhoneValidator {
 
-    public boolean isPhoneNumberValid(String phoneNumber) {
+    public boolean isPhoneNumberValid(String phoneNumber, String country) {
         return false;
     }
 
@@ -17,4 +17,5 @@ public class PhoneValidator {
     public void addCountryValidation(String title, int[] lengths, String localPrefix, String internationalPrefix) {
         return;
     }
+
 }
