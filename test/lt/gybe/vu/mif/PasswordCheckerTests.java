@@ -21,6 +21,8 @@ class PasswordCheckerTests {
     @BeforeEach
     void SetUp() {
         passwordChecker = new PasswordChecker();
+        passwordChecker.setMinLength(8);
+        passwordChecker.setMaxLength(32);
         ArrayList<Character> specialSymbols = passwordChecker.getSpecialSymbols();
         specialSymbol += specialSymbols.get(0);
     }
@@ -33,10 +35,6 @@ class PasswordCheckerTests {
         assertFalse(passwordChecker.isPasswordValid(password));
     }
 
-    /*
-    * Probably would be nice to have maximum length as well
-    * initial thought is 32 chars
-    */
     @Test
     void isPasswordValid_TooLongPassword_False() {
         //randomly generated 32 length string + special char
@@ -141,4 +139,39 @@ class PasswordCheckerTests {
         //Assert
         assertTrue(expectedArrayList.equals(passwordChecker.getSpecialSymbols()));
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1})
+    void setMinLength_NotPositive_ThrowsException(int length){
+        assertThrows(IllegalArgumentException.class, () -> {
+            passwordChecker.setMinLength(length);
+        });
+    }
+
+    @Test
+    void setMinLength_MoreThanMax_ThrowsException() {
+        passwordChecker.setMaxLength(10);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            passwordChecker.setMinLength(12);
+        });
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1})
+    void setMaxLength_NotPositive_ThrowsException(int length){
+        assertThrows(IllegalArgumentException.class, () -> {
+            passwordChecker.setMaxLength(length);
+        });
+    }
+
+    @Test
+    void setMaxLength_LessThanMin_ThrowsException() {
+        passwordChecker.setMinLength(8);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            passwordChecker.setMaxLength(5);
+        });
+    }
+
 }

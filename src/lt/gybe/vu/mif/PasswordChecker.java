@@ -38,4 +38,13 @@ public class PasswordChecker {
     private void setDefaultSpecialSymbols() {
         return;
     }
+
+    public void setMinLength(int length) {
+        return;
+    }
+
+    public void setMaxLength(int length) {
+        return;
+    }
+
 }
