@@ -5,10 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PasswordCheckerTests {
 
@@ -18,8 +21,8 @@ class PasswordCheckerTests {
     @BeforeEach
     void SetUp() {
         passwordChecker = new PasswordChecker();
-        Character[] specialSymbols = passwordChecker.getSpecialSymbols();
-        specialSymbol += specialSymbols[0];
+        ArrayList<Character> specialSymbols = passwordChecker.getSpecialSymbols();
+        specialSymbol += specialSymbols.get(0);
     }
 
     /*Password must be at least 8 characters long*/
@@ -56,12 +59,6 @@ class PasswordCheckerTests {
     }
 
     @Test
-    void isPasswordValid_StringWithSpaces_False() {
-        String withSpaces = "Space password" + specialSymbol;
-        assertFalse(passwordChecker.isPasswordValid(withSpaces));
-    }
-
-    @Test
     void isPasswordValid_NoUppercaseChars_False() {
         String noUppercase = "uppercasenotfound" + specialSymbol; //length >= 8
         assertFalse(passwordChecker.isPasswordValid(noUppercase));
@@ -81,11 +78,57 @@ class PasswordCheckerTests {
 
     @Test
     void addSpecialSymbol_DuplicateSymbol_DoesNotThrow() {
-        Character specialSymbol = '%';
+        //Arrange
+        char specialSymbol = '%';
         passwordChecker.addSpecialSymbol(specialSymbol);
 
+        //Act/Assert
         assertDoesNotThrow( () -> {
             passwordChecker.addSpecialSymbol(specialSymbol);
+        });
+    }
+
+    @Test
+    void addSpecialSymbol_DuplicateSymbol_DoesNotChangeArrayLength() {
+        //Arrange
+        char specialSymbol = '%';
+        passwordChecker.addSpecialSymbol(specialSymbol);
+        int amountOfChars = passwordChecker.getSpecialSymbols().size();
+
+        //Act
+        passwordChecker.addSpecialSymbol(specialSymbol);
+
+        //Assert
+        assertEquals(amountOfChars, passwordChecker.getSpecialSymbols().size());
+    }
+
+    @ParameterizedTest
+    @ValueSource(chars = {'!', '@', '#'})
+    void removeSpecialSymbol_ExistingChar_RemovesRightOne(Character charToBeRemoved) {
+        //Arrange
+        ArrayList<Character> localCharArray = new ArrayList<Character>(){
+            {
+                add('!');
+                add('@');
+                add('#');
+            }
+        };
+        passwordChecker.setSpecialSymbols(localCharArray);
+        localCharArray.remove(charToBeRemoved);
+
+        //Act
+        passwordChecker.removeSpecialSymbol(charToBeRemoved);
+
+        //Assert
+        assertTrue(localCharArray.equals(passwordChecker.getSpecialSymbols()));
+
+    }
+
+    @Test
+    void setSpecialSymbol_CharArray_DoesNotThrow() {
+        char[] charArray = {'!', '@'};
+        assertDoesNotThrow( () -> {
+            passwordChecker.setSpecialSymbols(charArray);
         });
     }
 }

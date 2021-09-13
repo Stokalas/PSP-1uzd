@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.security.InvalidParameterException;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,7 +26,7 @@ public class PhoneValidatorTests {
     @Test
     void isPhoneNumberValid_NullString_ThrowsException() {
         String phoneNumber = null;
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
            phoneValidator.isPhoneNumberValid(phoneNumber);
         });
     }
@@ -72,7 +70,7 @@ public class PhoneValidatorTests {
         String intPrefix = "371";
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -85,7 +83,7 @@ public class PhoneValidatorTests {
         int[] lengths = null;
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -98,7 +96,7 @@ public class PhoneValidatorTests {
         int[] lengths = {9};
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -112,7 +110,7 @@ public class PhoneValidatorTests {
         String intPrefix = null;
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -126,7 +124,7 @@ public class PhoneValidatorTests {
         String localPrefix = "8";
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -140,7 +138,7 @@ public class PhoneValidatorTests {
         String localPrefix = null;
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -154,7 +152,7 @@ public class PhoneValidatorTests {
         String intPrefix = "371";
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -170,7 +168,7 @@ public class PhoneValidatorTests {
         phoneValidator.addCountryValidation(title, new int[] {10}, "7", "123");
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -186,7 +184,7 @@ public class PhoneValidatorTests {
         phoneValidator.addCountryValidation("Existing", new int[] {10}, "8", "123");
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -202,7 +200,7 @@ public class PhoneValidatorTests {
         phoneValidator.addCountryValidation("Existing", new int[] {10}, "7", intPrefix);
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -217,7 +215,7 @@ public class PhoneValidatorTests {
         String intPrefix = "8";
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
            phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -231,7 +229,7 @@ public class PhoneValidatorTests {
         String localPrefix = "8";
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -245,7 +243,7 @@ public class PhoneValidatorTests {
         String intPrefix = "8";
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
@@ -259,7 +257,7 @@ public class PhoneValidatorTests {
         String localPrefix = "8";
 
         //Act/Assert
-        assertThrows(InvalidParameterException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
         });
     }
