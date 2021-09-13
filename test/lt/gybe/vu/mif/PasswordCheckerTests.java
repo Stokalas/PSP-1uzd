@@ -89,7 +89,7 @@ class PasswordCheckerTests {
     }
 
     @Test
-    void addSpecialSymbol_DuplicateSymbol_DoesNotChangeArrayLength() {
+    void addSpecialSymbol_DuplicateSymbol_DoesNotChangeArrayListLength() {
         //Arrange
         char specialSymbol = '%';
         passwordChecker.addSpecialSymbol(specialSymbol);
@@ -125,10 +125,20 @@ class PasswordCheckerTests {
     }
 
     @Test
-    void setSpecialSymbol_CharArray_DoesNotThrow() {
+    void setSpecialSymbol_CharArray_SetsRightSymbols() {
+        //Arrange
         char[] charArray = {'!', '@'};
-        assertDoesNotThrow( () -> {
-            passwordChecker.setSpecialSymbols(charArray);
-        });
+        ArrayList<Character> expectedArrayList = new ArrayList<Character>() {
+            {
+                add('!');
+                add('@');
+            }
+        };
+
+        //Act
+        passwordChecker.setSpecialSymbols(charArray);
+
+        //Assert
+        assertTrue(expectedArrayList.equals(passwordChecker.getSpecialSymbols()));
     }
 }

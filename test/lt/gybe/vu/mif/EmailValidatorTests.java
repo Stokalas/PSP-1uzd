@@ -75,7 +75,7 @@ public class EmailValidatorTests {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"name@example.com", "email@xyz.domain.com", "john@gmail.com"})
+    @ValueSource(strings = {"name@example.com", "email@xyz.domain.com", "j43@domainsample.co.uk"})
     void isEmailValid_ValidEmail_True(String email) {
         assertTrue(emailValidator.isEmailValid(email));
     }
