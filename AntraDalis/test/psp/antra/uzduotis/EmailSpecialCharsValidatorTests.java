@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.Assert.*;
 
-public class EmailSpecialCharsValidatorTests {
+class EmailSpecialCharsValidatorTests {
 
     EmailSpecialCharsValidator specialCharsValidator;
 
