@@ -1,4 +1,4 @@
-package lt.gybe.vu.mif;
+package psp.pirma.uzduotis;
 
 
 
