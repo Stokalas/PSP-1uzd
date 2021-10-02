@@ -3,6 +3,9 @@ package psp.antra.uzduotis;
 class EmailNavigator {
 
     EmailModel divideEmail(String email) {
+        if(email == null || email.trim().length() < 1) {
+            return new EmailModel();
+        }
         int atSymbolPos = locateAtSymbol(email);
         int lastDotPos = locateLastDot(email);
         int lastCharPos = email.length() - 1;
@@ -29,6 +32,9 @@ class EmailNavigator {
     }
 
     int locateAtSymbol(String email) {
+        if(email == null || email.trim().length() < 1) {
+            return -1;
+        }
         for (int i = 1; i < email.length() - 1; i++) {
             if(email.charAt(i) == '@') {
                 if(email.charAt(i-1) == '\"' && email.charAt(i+1) == '\"') {
@@ -45,6 +51,9 @@ class EmailNavigator {
 
 
     int locateLastDot(String email) {
+        if(email == null || email.trim().length() < 1) {
+            return -1;
+        }
         for (int i = email.length() - 1; i >= 0; i--) {
             if(email.charAt(i) == '.') {
                 return i;

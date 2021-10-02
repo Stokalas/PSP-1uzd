@@ -21,7 +21,7 @@ class EmailSpecialCharsValidator {
                 return 3;
             }
 
-            if (isValidExtraRestrictedSymbol(email, pos)) {
+            if (isValidExtraRestrictedSymbol(email, pos + 1)) {
                 return 4;
             }
 
@@ -40,7 +40,7 @@ class EmailSpecialCharsValidator {
     }
 
     private boolean isValidRestrictedSymbol(String email, int position) {
-        if (position == 0 || position == email.length() - 1) {
+        if (position == email.length() - 1) {
             return false;
         }
 
