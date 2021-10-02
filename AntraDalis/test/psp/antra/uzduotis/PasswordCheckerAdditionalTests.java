@@ -1,11 +1,9 @@
-package psp.uzduotis.antra;
+package psp.antra.uzduotis;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -23,7 +21,7 @@ public class PasswordCheckerAdditionalTests {
     @ParameterizedTest
     @NullSource
     void lenghtRequirement_Null(String password) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
            passwordChecker.lenghtRequirement(password, 8);
         });
     }
@@ -31,7 +29,7 @@ public class PasswordCheckerAdditionalTests {
     @ParameterizedTest
     @ValueSource(ints = {0, -1, -100})
     void lenghtRequirement_BadLength(int length) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             passwordChecker.lenghtRequirement("password", length);
         });
     }
@@ -45,7 +43,7 @@ public class PasswordCheckerAdditionalTests {
     @ParameterizedTest
     @NullSource
     void uppercaseCharactersRequirement_Null(String password) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             passwordChecker.uppercaseCharactersRequirement(password);
         });
     }
@@ -59,7 +57,7 @@ public class PasswordCheckerAdditionalTests {
     @ParameterizedTest
     @NullSource
     void specialCharacterRequirement_Null(String password) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             passwordChecker.specialCharacterRequirement(password);
         });
     }
@@ -91,7 +89,7 @@ public class PasswordCheckerAdditionalTests {
     @ParameterizedTest
     @NullSource
     void isPasswordValid_Null(String password) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             passwordChecker.isPasswordValid(password, 8);
         });
     }

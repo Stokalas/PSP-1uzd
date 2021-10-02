@@ -1,4 +1,4 @@
-package psp.uzduotis.antra;
+package psp.antra.uzduotis;
 
 class EmailNavigator {
 

@@ -1,14 +1,14 @@
-package psp.uzduotis.antra;
+package psp.antra.uzduotis;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 class PasswordCheckerTest {
 
     PasswordChecker passwordChecker;
+
     @BeforeEach
     void setUp() {
         passwordChecker = new PasswordChecker();

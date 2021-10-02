@@ -1,6 +1,4 @@
-package psp.uzduotis.antra;
-
-import static com.my.junit.StringValidatorHelper.ifStringNullThrow;
+package psp.antra.uzduotis;
 
 public class PasswordChecker {
 
@@ -22,7 +20,7 @@ public class PasswordChecker {
      * @return Returns true if password is >= length, false otherwise
      */
     public boolean lenghtRequirement(String password, int length) {
-        ifStringNullThrow(password, "Password");
+        StringValidatorHelper.ifStringNullThrow(password, "Password");
 
         if (length <= 0) {
             throw new IllegalArgumentException("The Password length cannot be 0 or less");
@@ -37,7 +35,7 @@ public class PasswordChecker {
      * @return Returns true if password contains at least 1 uppercase character, false otherwise
      */
     public boolean uppercaseCharactersRequirement(String password) {
-        ifStringNullThrow(password, "Password");
+        StringValidatorHelper.ifStringNullThrow(password, "Password");
 
         char temp;
 
@@ -58,7 +56,7 @@ public class PasswordChecker {
      * @return Returns true if password contains at least 1 of the special characters, false otherwise
      */
     public boolean specialCharacterRequirement(String password) {
-        ifStringNullThrow(password, "Password");
+        StringValidatorHelper.ifStringNullThrow(password, "Password");
 
         if (specialCharacters.length < 1) {
             return true;

@@ -1,5 +1,6 @@
-package psp.uzduotis.antra;
+package psp.antra.uzduotis;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +21,7 @@ public class PhoneValidatorAdditionalTests {
     @ParameterizedTest
     @NullAndEmptySource
     void addValidationRule_NullEmpty_countryCode_Throws(String countryCode) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addValidationRule(countryCode, "+370", 8);
         });
     }
@@ -28,7 +29,7 @@ public class PhoneValidatorAdditionalTests {
     @ParameterizedTest
     @NullAndEmptySource
     void addValidationRule_NullEmpty_Prefix_Throws(String prefix) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addValidationRule("LT", prefix, 8);
         });
     }
@@ -36,7 +37,7 @@ public class PhoneValidatorAdditionalTests {
     @ParameterizedTest
     @ValueSource(ints = {0, -1, -79})
     void addValidationRule_NonPositive_Length_Throws(int length) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addValidationRule("LT", "+370", length);
         });
     }
@@ -47,8 +48,8 @@ public class PhoneValidatorAdditionalTests {
         String prefix = "+00";
         int length = 6;
 
-        assertTrue(phoneValidator.addValidationRule(countryCode, prefix, length));
-        assertFalse(phoneValidator.addValidationRule(countryCode, prefix, length));
+        Assert.assertTrue(phoneValidator.addValidationRule(countryCode, prefix, length));
+        Assert.assertFalse(phoneValidator.addValidationRule(countryCode, prefix, length));
     }
 
     @Test
@@ -57,12 +58,12 @@ public class PhoneValidatorAdditionalTests {
         phoneValidator.addValidationRule("RNG", "+55", 7);
 
         //Act/Assert
-        assertTrue(phoneValidator.isNumberValid("RNG", "+551234567"));
+        Assert.assertTrue(phoneValidator.isNumberValid("RNG", "+551234567"));
     }
 
     @Test
     void isNumberValid_LTStartsWith8_PassesValidation() {
-        assertTrue(phoneValidator.isNumberValid("LT", "868154358"));
+        Assert.assertTrue(phoneValidator.isNumberValid("LT", "868154358"));
     }
 
     @Test
@@ -75,8 +76,8 @@ public class PhoneValidatorAdditionalTests {
         String[] rules = phoneValidator.getExistingValidationRules();
 
         //Assert
-        assertEquals(1, rules.length);
-        assertEquals("Country Code - IMG prefix - +00 length without prefix - 7", rules[0]);
+        Assert.assertEquals(1, rules.length);
+        Assert.assertEquals("Country Code - IMG prefix - +00 length without prefix - 7", rules[0]);
     }
 
 

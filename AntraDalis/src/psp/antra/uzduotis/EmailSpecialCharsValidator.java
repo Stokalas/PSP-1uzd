@@ -1,6 +1,4 @@
-package psp.uzduotis.antra;
-
-import static com.my.junit.StringValidatorHelper.arrayContains;
+package psp.antra.uzduotis;
 
 class EmailSpecialCharsValidator {
 
@@ -38,7 +36,7 @@ class EmailSpecialCharsValidator {
     }
 
     private boolean isValidSpecialSymbol(char ch) {
-        return arrayContains(validSymbols, ch);
+        return StringValidatorHelper.arrayContains(validSymbols, ch);
     }
 
     private boolean isValidRestrictedSymbol(String email, int position) {
@@ -51,7 +49,7 @@ class EmailSpecialCharsValidator {
         char prev = email.charAt(position - 1);
         char next = email.charAt(position + 1);
 
-        return arrayContains(validSymbolsWithRestrictions, ch) && prev == '\"' && next == '\"';
+        return StringValidatorHelper.arrayContains(validSymbolsWithRestrictions, ch) && prev == '\"' && next == '\"';
     }
 
     private boolean isValidDot(String email, int position) {
@@ -78,6 +76,6 @@ class EmailSpecialCharsValidator {
         char prev2 = email.charAt(position - 2);
         char next = email.charAt(position + 1);
 
-        return arrayContains(validSymbolsWithExtraRest, ch) && prev2 == '\"' && next == '\"' && prev == '\\';
+        return StringValidatorHelper.arrayContains(validSymbolsWithExtraRest, ch) && prev2 == '\"' && next == '\"' && prev == '\\';
     }
 }
