@@ -206,8 +206,6 @@ public class PhoneValidatorTests {
         String localPrefix = "8";
         String intPrefix = "371";
 
-        phoneValidator.addCountryValidation(title, new int[] {10}, "7", "123");
-
         //Act/Assert
         assertThrows(IllegalArgumentException.class, () -> {
             phoneValidator.addCountryValidation(title, lengths, localPrefix, intPrefix);
