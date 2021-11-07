@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AntraDalis:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/AntraDalis_jar</output-path>
+    <root id="archive" name="AntraDalis.jar">
+      <element id="module-output" name="AntraDalis" />
+      <element id="module-test-output" name="AntraDalis" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/junit-platform-console-standalone-1.8.0-RC1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
