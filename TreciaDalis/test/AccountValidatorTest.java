@@ -13,11 +13,6 @@ public class AccountValidatorTest {
     private AccountValidator validator;
     private ValidationSettings settings;
 
-//    @BeforeAll
-//    void settingsSetUp() {
-//
-//    }
-
     @BeforeEach
     void setUp() {
         List<String> validDomains = new ArrayList<>();

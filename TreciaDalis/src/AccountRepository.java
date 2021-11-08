@@ -11,7 +11,7 @@ public class AccountRepository {
         this.csvReader = new CsvReader(connectionString);
     }
 
-    public AccountModel create(AccountModel accountModel) {//what if same id exists?
+    public AccountModel create(AccountModel accountModel) {
         List<AccountModel> l = new ArrayList<>();
         accountModel.setId(csvReader.calculateNextId()); //needed only because storing in csv
         l.add(accountModel);

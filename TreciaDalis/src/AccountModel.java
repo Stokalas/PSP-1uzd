@@ -26,6 +26,17 @@ public class AccountModel {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AccountModel) {
+            AccountModel a = (AccountModel) obj;
+            if (a.getId() == this.id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getId() {
         return id;
     }
